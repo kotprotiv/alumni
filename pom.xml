@@ -78,12 +78,14 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.2.1</version>
 				<configuration>
-					<from>
-						<image>openjdk:11-jdk-slim</image>
-					</from>
 					<to>
 						<image>registry.hub.docker.com/kotprotiv/alumni-app</image>
 					</to>
+					<container>
+						<ports>
+							<port>8080</port>
+						</ports>
+					</container>
 				</configuration>
 				<executions>
 					<execution>
