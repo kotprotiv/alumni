@@ -1,10 +1,19 @@
 package it.kirill.alumni.model.entity;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Education {
 
-    private final String university;
-    private final Integer year;
+    private String university;
+    private Integer year;
+
+    public Education() {
+    }
 }

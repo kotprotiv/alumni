@@ -5,6 +5,8 @@ import it.kirill.alumni.model.entity.Alumni;
 import it.kirill.alumni.model.exception.NoDataFoundException;
 import it.kirill.alumni.repository.AlumniRepository;
 import it.kirill.alumni.service.validation.ValidationFacade;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class AlumniServiceImpl implements AlumniService {
 
     private final AlumniRepository alumniRepository;
@@ -29,13 +32,16 @@ public class AlumniServiceImpl implements AlumniService {
 
     @Override
     public void save(AlumniDto alumniDto) {
+        log.debug("Saving {}", alumniDto);
         alumniDtoValidationFacade.validate(alumniDto);
         Alumni alumni = alumniDtoHelper.toDomain(alumniDto);
         alumniRepository.save(alumni);
     }
 
     @Override
+    @Cacheable(value = "alumniCache")
     public Map<String, Object> findAllByName(String name, PageRequest pageRequest) {
+        log.debug("Finding {}", name);
         List<AlumniDto> alumniDtos = alumniRepository.findAllByName(name, pageRequest).stream()
                 .map(alumniDtoHelper::toDto)
                 .collect(Collectors.toList());

@@ -1,11 +1,20 @@
 package it.kirill.alumni.model.entity;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Address {
 
-    private final String street;
-    private final String number;
-    private final String country;
+    private String street;
+    private String number;
+    private String country;
+
+    public Address() {
+    }
 }
