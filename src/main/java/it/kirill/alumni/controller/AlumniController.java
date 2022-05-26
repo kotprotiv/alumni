@@ -20,14 +20,14 @@ public class AlumniController {
     private final AlumniService alumniService;
 
     @PostMapping("alumni")
-    public void save(@RequestBody AlumniDto alumniDtos) throws ValidationException {
+    public void save(@RequestBody AlumniDto alumniDtos) {
         alumniService.save(alumniDtos);
     }
 
     @GetMapping(value = "alumni", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> getByName(@RequestParam("name") String name,
                                          @RequestParam("page") int page,
-                                         @RequestParam("size") int size) throws NoDataFoundException {
+                                         @RequestParam("size") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         return alumniService.findAllByName(name, pageRequest);
     }

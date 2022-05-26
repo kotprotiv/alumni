@@ -1,7 +1,6 @@
 package it.kirill.alumni.controller;
 
 import it.kirill.alumni.TestAlumniSupplier;
-import it.kirill.alumni.model.exception.ValidationException;
 import it.kirill.alumni.service.AlumniService;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +11,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,29 +30,58 @@ class AlumniControllerTest {
     @LocalServerPort
     private int port;
 
+    private String url;
+
+    private String json;
+
     @Autowired
     private TestRestTemplate restTemplate;
 
     @BeforeEach
-    void init() {
+    void init() throws IOException {
+        url = "http://localhost:" + port;
+        json = IOUtils.toString(this.getClass().getResourceAsStream("/request.json"));
+
         doNothing().when(alumniService).save(eq(TestAlumniSupplier.supplyDto()));
         when(alumniService.findAllByName(eq(TestAlumniSupplier.NAME), any(PageRequest.class))).thenReturn(TestAlumniSupplier.supplyMap());
     }
 
     @Test
-    void save() throws ValidationException, IOException {
-        String jsonRequest = IOUtils.toString(this.getClass().getResourceAsStream("/request.json"));
+    void save() {
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/api/v1/alumni")
+                .build()
+                .toUri();
 
-        restTemplate.postForLocation("http://localhost:" + port + "/alumni", jsonRequest);
-        verify(alumniService, times(1)).save(eq(TestAlumniSupplier.supplyDto()));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<String> request = new HttpEntity<>(json, headers);
+
+        ResponseEntity response = restTemplate
+                .withBasicAuth("user", "user")
+                .postForEntity(uri, request, Map.class);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     void getByName() {
-        Map result = this.restTemplate.getForObject("http://localhost:" + port + "/alumni", Map.class);
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/api/v1/alumni")
+                .queryParam("name", TestAlumniSupplier.NAME)
+                .queryParam("page", 0)
+                .queryParam("size", 1)
+                .build()
+                .toUri();
 
-//        verify(alumniService, times(1)).findAllByName();
+        ResponseEntity<Map> response = restTemplate
+                .withBasicAuth("user", "user")
+                .getForEntity(uri, Map.class);
 
-        assertEquals(TestAlumniSupplier.supplyMap(), result);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
 }
