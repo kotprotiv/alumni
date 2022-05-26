@@ -1,0 +1,16 @@
+{
+  "name": "nome",
+  "addresses": [
+    {
+      "street": "streetname",
+      "number": "22",
+      "country": "country"
+    }
+  ],
+  "education": {
+    "master": {
+      "university": "PolitecnicoMilano",
+      "year": 2004
+    }
+  }
+}
