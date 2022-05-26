@@ -9,5 +9,5 @@ public interface AlumniService {
 
     void save(AlumniDto alumniDto);
 
-    Map<String, Object> findAllByName(String name, PageRequest pageRequest);
+    Map<String, Object> find(String name, String educationLevel, PageRequest pageRequest);
 }

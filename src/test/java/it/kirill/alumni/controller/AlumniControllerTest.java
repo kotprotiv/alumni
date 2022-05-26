@@ -43,7 +43,7 @@ class AlumniControllerTest {
         json = IOUtils.toString(this.getClass().getResourceAsStream("/request.json"));
 
         doNothing().when(alumniService).save(eq(TestAlumniSupplier.supplyDto()));
-        when(alumniService.findAllByName(eq(TestAlumniSupplier.NAME), any(PageRequest.class))).thenReturn(TestAlumniSupplier.supplyMap());
+        when(alumniService.find(eq(TestAlumniSupplier.NAME), eq("master"), any(PageRequest.class))).thenReturn(TestAlumniSupplier.supplyMap());
     }
 
     @Test
@@ -67,11 +67,12 @@ class AlumniControllerTest {
     }
 
     @Test
-    void getByName() {
+    void get() {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/api/v1/alumni")
                 .queryParam("name", TestAlumniSupplier.NAME)
+                .queryParam("educationLevel", "master")
                 .queryParam("page", 0)
                 .queryParam("size", 1)
                 .build()

@@ -40,11 +40,13 @@ public class AlumniServiceImpl implements AlumniService {
 
     @Override
     @Cacheable(value = "alumniCache")
-    public Map<String, Object> findAllByName(String name, PageRequest pageRequest) {
+    public Map<String, Object> find(String name, String educationLevel, PageRequest pageRequest) {
         log.debug("Finding {}", name);
         List<AlumniDto> alumniDtos = alumniRepository.findAllByName(name, pageRequest).stream()
                 .map(alumniDtoHelper::toDto)
                 .collect(Collectors.toList());
+
+        alumniDtos = alumniDtos.stream().filter(d -> d.getEducation().containsKey(educationLevel)).collect(Collectors.toList());
 
         if (alumniDtos.isEmpty()) {
             throw new NoDataFoundException(String.format("No alumni found by name %s", name));

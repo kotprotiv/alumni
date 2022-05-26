@@ -2,6 +2,7 @@ package it.kirill.alumni.service;
 
 import it.kirill.alumni.TestAlumniSupplier;
 import it.kirill.alumni.model.dto.AlumniDto;
+import it.kirill.alumni.model.exception.NoDataFoundException;
 import it.kirill.alumni.repository.AlumniRepository;
 import it.kirill.alumni.service.validation.ValidationFacade;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -45,12 +47,20 @@ class AlumniServiceImplTest {
     }
 
     @Test
-    void findAllByName() {
-        Map<String, Object> result = alumniService.findAllByName(TestAlumniSupplier.NAME, PageRequest.of(1, 1));
+    void find() {
+        Map<String, Object> result = alumniService.find(TestAlumniSupplier.NAME, "master", PageRequest.of(1, 1));
 
         verify(alumniRepository, times(1)).findAllByName(eq(TestAlumniSupplier.NAME), eq(PageRequest.of(1, 1)));
 
         assertThat(result)
                 .containsExactlyInAnyOrderEntriesOf(TestAlumniSupplier.supplyMap());
+    }
+
+    @Test
+    void findWithEmptyResult() {
+        assertThrows(
+                NoDataFoundException.class,
+                () -> alumniService.find(TestAlumniSupplier.NAME, "SUPER MEGA", PageRequest.of(1, 1))
+        );
     }
 }

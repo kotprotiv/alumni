@@ -25,11 +25,12 @@ public class AlumniController {
     }
 
     @GetMapping(value = "alumni", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> getByName(@RequestParam("name") String name,
-                                         @RequestParam("page") int page,
-                                         @RequestParam("size") int size) {
+    public Map<String, Object> get(@RequestParam("name") String name,
+                                   @RequestParam("educationLevel") String educationLevel,
+                                   @RequestParam("page") int page,
+                                   @RequestParam("size") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return alumniService.findAllByName(name, pageRequest);
+        return alumniService.find(name, educationLevel, pageRequest);
     }
 
     @ExceptionHandler(NoDataFoundException.class)
@@ -38,7 +39,7 @@ public class AlumniController {
     }
 
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<String> noDataFoundException(ValidationException ex) {
+    public ResponseEntity<String> validationException(ValidationException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 }
