@@ -42,4 +42,11 @@ public class TestAlumniSupplier {
             put("data", supplyDtoList());
         }};
     }
+
+    public static AlumniDto supplyMalformedDto() {
+        return new AlumniDto(
+                NAME,
+                Collections.singletonList(new Address("Aa1aA", "11GG", null)),
+                EDUCATION);
+    }
 }

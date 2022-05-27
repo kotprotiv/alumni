@@ -13,7 +13,7 @@ public class ValidationConfiguration {
 
     @Bean
     public ValidationFacade<AlumniDto> alumniDtoValidationFacade(List<ValidationService<AlumniDto>> validationServices) {
-        return new AlumniValidationFacadeImpl(validationServices);
+        return new CommonValidationFacade<>(validationServices);
     }
 
     @Bean

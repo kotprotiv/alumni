@@ -1,24 +1,30 @@
 package it.kirill.alumni.service.validation;
 
+import it.kirill.alumni.model.ValidationResult;
 import it.kirill.alumni.model.dto.AlumniDto;
 import it.kirill.alumni.model.entity.Address;
-import it.kirill.alumni.model.exception.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static it.kirill.alumni.model.MessageLevel.ERROR;
 
 @Slf4j
 public class AlumniAddressStreetNumberValidationService implements ValidationService<AlumniDto> {
 
-    public void validate(AlumniDto dto) {
+    private final String NAME = "Address Street Number Validation";
+
+    public List<ValidationResult> validate(AlumniDto dto) {
         log.debug("AlumniAddressStreetNumberValidationService validating {}", dto);
+        List<ValidationResult> validationResults = new ArrayList<>();
         for (Address address : dto.getAddresses()) {
             boolean isMatches = address.getNumber().matches("^\\d*$");
             if (!isMatches) {
                 String errorMessage = String.format("Street number %s is unacceptable", address.getNumber());
-                log.error("AlumniAddressStreetNumberValidationService error: {}", errorMessage);
-                throw new ValidationException(errorMessage);
+                validationResults.add(new ValidationResult(NAME, ERROR, errorMessage));
             }
         }
+        return validationResults;
     }
-
-    ;
 }
