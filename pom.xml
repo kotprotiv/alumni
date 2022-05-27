@@ -99,17 +99,6 @@
                     <to>
                         <image>registry.hub.docker.com/kotprotiv/alumni-app</image>
                     </to>
-                    <container>
-                        <ports>
-                            <port>80</port>
-                        </ports>
-                        <environment>
-                            <DB_HOSTNAME>host.docker.internal</DB_HOSTNAME>
-                        </environment>
-                        <volumes>
-                            <volume>/logs</volume>
-                        </volumes>
-                    </container>
                 </configuration>
                 <executions>
                     <execution>

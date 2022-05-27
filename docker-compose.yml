@@ -1,0 +1,10 @@
+services:
+  alumni-app:
+    image: kotprotiv/alumni-app:latest
+    restart: always
+    volumes:
+      - ~/IdeaProjects/alumni/logs:/logs
+    environment:
+      - DB_HOSTNAME=host.docker.internal
+    ports:
+      - 80:80
