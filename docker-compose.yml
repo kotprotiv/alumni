@@ -3,7 +3,7 @@ services:
     image: kotprotiv/alumni-app:latest
     restart: always
     volumes:
-      - ~/IdeaProjects/alumni/logs:/logs
+      - /tmp/logs:/logs
     environment:
       - DB_HOSTNAME=host.docker.internal
     ports:
