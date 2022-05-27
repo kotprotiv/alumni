@@ -1,6 +1,8 @@
 spring:
   cache:
     type: redis
+  redis:
+    host: host.docker.internal
   data:
     mongodb:
       authentication-database: app
@@ -8,7 +10,7 @@ spring:
       password: admin
       database: app
       port: 27017
-      host: localhost
+      host: host.docker.internal
 logging:
   level:
     it.kirill: DEBUG
