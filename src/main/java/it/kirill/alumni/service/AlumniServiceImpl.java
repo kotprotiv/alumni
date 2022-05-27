@@ -44,9 +44,8 @@ public class AlumniServiceImpl implements AlumniService {
         log.debug("Finding {}", name);
         List<AlumniDto> alumniDtos = alumniRepository.findAllByName(name, pageRequest).stream()
                 .map(alumniDtoHelper::toDto)
+                .filter(d -> d.getEducation().containsKey(educationLevel))
                 .collect(Collectors.toList());
-
-        alumniDtos = alumniDtos.stream().filter(d -> d.getEducation().containsKey(educationLevel)).collect(Collectors.toList());
 
         if (alumniDtos.isEmpty()) {
             throw new NoDataFoundException(String.format("No alumni found by name %s", name));
