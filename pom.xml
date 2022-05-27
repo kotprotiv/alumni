@@ -101,11 +101,14 @@
                     </to>
                     <container>
                         <ports>
-                            <port>8081</port>
+                            <port>80</port>
                         </ports>
                         <environment>
                             <DB_HOSTNAME>host.docker.internal</DB_HOSTNAME>
                         </environment>
+                        <volumes>
+                            <volume>/logs</volume>
+                        </volumes>
                     </container>
                 </configuration>
                 <executions>
