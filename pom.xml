@@ -10,7 +10,7 @@
     </parent>
     <groupId>it.kirill</groupId>
     <artifactId>alumni</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>AlumniApp</name>
     <description>Alumni application</description>
     <properties>
