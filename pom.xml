@@ -100,14 +100,14 @@
                         <image>registry.hub.docker.com/kotprotiv/alumni-app</image>
                     </to>
                 </configuration>
-                <executions>
+                <!--executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions-->
             </plugin>
         </plugins>
     </build>
