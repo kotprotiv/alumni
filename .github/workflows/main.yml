@@ -16,7 +16,7 @@ jobs:
         uses: nnichols/maven-version-bump-action@v3
         with:
           github-token: ${{ secrets.github_token }}
-      - run: mvn package
+      - run: mvn package -Ddocker.username=${{ secrets.DOCKER_USERNAME }}  -Ddocker.password=${{ secrets.DOCKER_PASSWORD }}
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:

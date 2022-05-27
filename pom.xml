@@ -98,11 +98,15 @@
                 <configuration>
                     <to>
                         <image>registry.hub.docker.com/kotprotiv/alumni-app</image>
+                        <auth>
+                            <username>${docker.username}</username>
+                            <password>${docker.password}</password>
+                        </auth>
                     </to>
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>build</goal>
                         </goals>
