@@ -1,10 +1,46 @@
+version: '3'
 services:
-  alumni-app:
+  redis:
+    container_name: redis
+    hostname: redis
+    image: bitnami/redis:latest
+    restart: always
+    networks:
+      - gateway
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./data/redis:/bitnami/redis/data
+  mongo:
+    container_name: mongo
+    hostname: mongo
+    image: mongo:latest
+    restart: always
+    networks:
+      - gateway
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongo:/data/db
+  alumni:
+    container_name: alumni
+    hostname: alumni
     image: kotprotiv/alumni-app:latest
     restart: always
-    volumes:
-      - /tmp/logs:/logs
-    environment:
-      - DB_HOSTNAME=host.docker.internal
+    networks:
+      - gateway
     ports:
-      - 80:80
+      - "80:80"
+    volumes:
+      - ./logs:/logs
+    environment:
+      - DB_MONGO_HOSTNAME=mongo
+      - DB_REDIS_HOSTNAME=redis
+    depends_on:
+      - mongo
+      - redis
+networks:
+  gateway:
+    driver: "bridge"
