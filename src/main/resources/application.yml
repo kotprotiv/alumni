@@ -4,14 +4,11 @@ spring:
   cache:
     type: redis
   redis:
-    host: ${DB_HOSTNAME:localhost}
+    host: ${DB_REDIS_HOSTNAME:localhost}
   data:
     mongodb:
-      authentication-database: app
-      username: admin
-      password: admin
       database: app
       port: 27017
-      host: ${DB_HOSTNAME:localhost}
+      host: ${DB_MONGO_HOSTNAME:localhost}
 logging:
   config: classpath:logback.xml
