@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.kirill</groupId>
     <artifactId>alumni</artifactId>
-    <version>0.0.4</version>
+    <version>1.0.0</version>
     <name>AlumniApp</name>
     <description>Alumni application</description>
     <parent>
@@ -97,7 +97,7 @@
                 <version>${jib-maven-plugin.version}</version>
                 <configuration>
                     <to>
-                        <image>registry.hub.docker.com/kotprotiv/alumni-app</image>
+                        <image>registry.hub.docker.com/kotprotiv/alumni-app:${version}</image>
                         <auth>
                             <username>${env.DOCKER_USERNAME}</username>
                             <password>${env.DOCKER_PASSWORD}</password>
