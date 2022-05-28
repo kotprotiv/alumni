@@ -16,7 +16,11 @@ jobs:
         uses: nnichols/maven-version-bump-action@v3
         with:
           github-token: ${{ secrets.github_token }}
-      - run: mvn package
+      - name: Build
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: mvn install
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
