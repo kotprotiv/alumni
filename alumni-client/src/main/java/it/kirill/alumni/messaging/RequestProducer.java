@@ -2,27 +2,29 @@ package it.kirill.alumni.messaging;
 
 
 import it.kirill.alumni.model.QueueName;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import javax.annotation.PostConstruct;
 
+@Slf4j
 public class RequestProducer {
 
     private final RabbitTemplate template;
 
     private static final String TEST_JSON = "{\n" +
-            "  \"name\": \"nome\",\n" +
+            "  \"name\": \"Mario\",\n" +
             "  \"addresses\": [\n" +
             "    {\n" +
-            "      \"street\": \"streetname\",\n" +
+            "      \"street\": \"via via\",\n" +
             "      \"number\": \"22\",\n" +
-            "      \"country\": \"country\"\n" +
+            "      \"country\": \"italia\"\n" +
             "    }\n" +
             "  ],\n" +
             "  \"education\": {\n" +
             "    \"master\": {\n" +
             "      \"university\": \"PolitecnicoMilano\",\n" +
-            "      \"year\": 2004\n" +
+            "      \"year\": 2021\n" +
             "    }\n" +
             "  }\n" +
             "}";
@@ -33,6 +35,7 @@ public class RequestProducer {
 
     @PostConstruct
     public void send() {
+        log.info("Sending message");
         template.convertAndSend(QueueName.REQUEST.getName(), TEST_JSON);
     }
 }

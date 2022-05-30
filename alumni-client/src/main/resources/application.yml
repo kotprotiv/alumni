@@ -5,3 +5,5 @@ logging:
 spring:
   rabbitmq:
     host: ${RABBIT_HOSTNAME:localhost}
+    username: guest
+    password: guest

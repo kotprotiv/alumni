@@ -12,5 +12,7 @@ spring:
       host: ${DB_MONGO_HOSTNAME:localhost}
   rabbitmq:
     host: ${RABBIT_HOSTNAME:localhost}
+    username: guest
+    password: guest
 logging:
   config: classpath:logback.xml
