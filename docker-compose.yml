@@ -1,5 +1,15 @@
 version: '3'
 services:
+  rabbit:
+    container_name: rabbit
+    hostname: rabbit
+    image: rabbitmq
+    restart: always
+    networks:
+      - gateway
+    ports:
+      - "6379:6379"
+  #    volumes: todo: add for persistence
   redis:
     container_name: redis
     hostname: redis
@@ -41,6 +51,7 @@ services:
     depends_on:
       - mongo
       - redis
+      - rabbit
 networks:
   gateway:
     driver: "bridge"
