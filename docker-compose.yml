@@ -34,9 +34,9 @@ services:
       - "27017:27017"
     volumes:
       - ./data/mongo:/data/db
-  alumni:
-    container_name: alumni
-    hostname: alumni
+  alumni-app:
+    container_name: alumni-app
+    hostname: alumni-app
     image: kotprotiv/alumni-app:latest
     restart: always
     networks:
@@ -51,6 +51,19 @@ services:
     depends_on:
       - mongo
       - redis
+      - rabbit
+  alumni-client:
+    container_name: alumni-client
+    hostname: alumni-client
+    image: kotprotiv/alumni-client:latest
+    restart: always
+    networks:
+      - gateway
+    ports:
+      - "81:81"
+    volumes:
+      - ./logs:/logs
+    depends_on:
       - rabbit
 networks:
   gateway:

@@ -40,7 +40,7 @@ class AlumniControllerTest {
     @BeforeEach
     void init() throws IOException {
         url = "http://localhost:" + port;
-        json = IOUtils.toString(this.getClass().getResourceAsStream("/request.json"));
+        json = IOUtils.toString(this.getClass().getResourceAsStream("/src/test/resources/request.json"));
 
         doNothing().when(alumniService).save(eq(TestAlumniSupplier.supplyDto()));
         when(alumniService.find(eq(TestAlumniSupplier.NAME), eq("master"), any(PageRequest.class))).thenReturn(TestAlumniSupplier.supplyMap());
