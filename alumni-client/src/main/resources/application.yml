@@ -2,3 +2,6 @@ server:
   port: 81
 logging:
   config: classpath:logback.xml
+spring:
+  rabbitmq:
+    host: ${RABBIT_HOSTNAME:localhost}

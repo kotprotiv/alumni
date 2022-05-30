@@ -48,6 +48,7 @@ services:
     environment:
       - DB_MONGO_HOSTNAME=mongo
       - DB_REDIS_HOSTNAME=redis
+      - RABBIT_HOSTNAME=rabbit
     depends_on:
       - mongo
       - redis
@@ -63,6 +64,8 @@ services:
       - "81:81"
     volumes:
       - ./logs:/logs
+    environment:
+      - RABBIT_HOSTNAME=rabbit
     depends_on:
       - rabbit
 networks:

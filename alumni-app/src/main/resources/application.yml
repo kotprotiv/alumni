@@ -10,5 +10,7 @@ spring:
       database: app
       port: 27017
       host: ${DB_MONGO_HOSTNAME:localhost}
+  rabbitmq:
+    host: ${RABBIT_HOSTNAME:localhost}
 logging:
   config: classpath:logback.xml
