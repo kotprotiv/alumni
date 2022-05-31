@@ -39,6 +39,13 @@ public class AlumniServiceImpl implements AlumniService {
     }
 
     @Override
+    public void saveAll(List<AlumniDto> alumniDtos) {
+        log.debug("Saving {}", alumniDtos);
+        List<Alumni> alumni = alumniDtos.stream().peek(alumniDtoValidationFacade::validate).map(alumniDtoHelper::toDomain).collect(Collectors.toList());
+        alumniRepository.saveAll(alumni);
+    }
+
+    @Override
     @Cacheable(value = "alumniCache")
     public Map<String, Object> find(String name, String educationLevel, PageRequest pageRequest) {
         log.debug("Finding {}", name);

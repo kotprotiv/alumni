@@ -55,10 +55,10 @@ services:
       - mongo
       - redis
       - rabbit
-  alumni-client:
-    container_name: alumni-client
-    hostname: alumni-client
-    image: kotprotiv/alumni-client:latest
+  alumni-file-adapter:
+    container_name: alumni-file-adapter
+    hostname: alumni-file-adapter
+    image: kotprotiv/alumni-file-adapter:latest
     restart: always
     networks:
       - gateway
@@ -66,6 +66,7 @@ services:
       - "81:81"
     volumes:
       - ./logs:/logs
+      - ./in:/in
     environment:
       - RABBIT_HOSTNAME=rabbit
     depends_on:

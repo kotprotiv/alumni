@@ -2,11 +2,14 @@ package it.kirill.alumni.messaging;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.kirill.alumni.model.dto.AlumniDto;
 import it.kirill.alumni.service.AlumniService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
+import java.util.List;
 
 @Slf4j
 public class RequestListener {
@@ -23,7 +26,8 @@ public class RequestListener {
     @RabbitListener(queues = "requestQueue")
     public void listen(String in) throws JsonProcessingException {
         log.info("Got message: {}", in);
-        AlumniDto alumniDto = objectMapper.readValue(in, AlumniDto.class);
-        alumniService.save(alumniDto);
+        List<AlumniDto> alumniDto = objectMapper.readValue(in, new TypeReference<List<AlumniDto>>() {
+        });
+        alumniService.saveAll(alumniDto);
     }
 }

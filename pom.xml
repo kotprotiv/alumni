@@ -15,7 +15,7 @@
     </parent>
 
     <modules>
-        <module>alumni-client</module>
+        <module>alumni-file-adapter</module>
         <module>alumni-app</module>
         <module>alumni-model</module>
     </modules>
