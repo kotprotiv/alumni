@@ -5,9 +5,8 @@
 
     <groupId>it.kirill</groupId>
     <artifactId>alumni</artifactId>
+    <packaging>pom</packaging>
     <version>1.2.0</version>
-    <name>AlumniApp</name>
-    <description>Alumni application</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
