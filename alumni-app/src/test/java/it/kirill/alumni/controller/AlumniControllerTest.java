@@ -2,22 +2,26 @@ package it.kirill.alumni.controller;
 
 import it.kirill.alumni.TestAlumniSupplier;
 import it.kirill.alumni.service.AlumniService;
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.*;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Map;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -32,22 +36,22 @@ class AlumniControllerTest {
 
     private String url;
 
-    private String json;
+    @Value("classpath:request.json")
+    private Resource resource;
 
     @Autowired
     private TestRestTemplate restTemplate;
 
     @BeforeEach
-    void init() throws IOException {
+    void init() {
         url = "http://localhost:" + port;
-        json = IOUtils.toString(this.getClass().getResourceAsStream("/src/test/resources/request.json"));
 
         doNothing().when(alumniService).save(eq(TestAlumniSupplier.supplyDto()));
         when(alumniService.find(eq(TestAlumniSupplier.NAME), eq("master"), any(PageRequest.class))).thenReturn(TestAlumniSupplier.supplyMap());
     }
 
     @Test
-    void save() {
+    void save() throws IOException {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/api/v1/alumni")
@@ -56,7 +60,7 @@ class AlumniControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+        String json = FileCopyUtils.copyToString(new InputStreamReader(resource.getInputStream(), UTF_8));
         HttpEntity<String> request = new HttpEntity<>(json, headers);
 
         ResponseEntity response = restTemplate
