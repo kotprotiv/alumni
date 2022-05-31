@@ -1,5 +1,17 @@
 version: '3'
 services:
+  rabbit:
+    container_name: rabbit
+    hostname: rabbit
+    image: rabbitmq:3-management
+    restart: always
+    networks:
+      - gateway
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./data/rabbit:/data
   redis:
     container_name: redis
     hostname: redis
@@ -24,9 +36,9 @@ services:
       - "27017:27017"
     volumes:
       - ./data/mongo:/data/db
-  alumni:
-    container_name: alumni
-    hostname: alumni
+  alumni-app:
+    container_name: alumni-app
+    hostname: alumni-app
     image: kotprotiv/alumni-app:latest
     restart: always
     networks:
@@ -38,9 +50,27 @@ services:
     environment:
       - DB_MONGO_HOSTNAME=mongo
       - DB_REDIS_HOSTNAME=redis
+      - RABBIT_HOSTNAME=rabbit
     depends_on:
       - mongo
       - redis
+      - rabbit
+  alumni-file-adapter:
+    container_name: alumni-file-adapter
+    hostname: alumni-file-adapter
+    image: kotprotiv/alumni-file-adapter:latest
+    restart: always
+    networks:
+      - gateway
+    ports:
+      - "81:81"
+    volumes:
+      - ./logs:/logs
+      - ./in:/in
+    environment:
+      - RABBIT_HOSTNAME=rabbit
+    depends_on:
+      - rabbit
 networks:
   gateway:
     driver: "bridge"

@@ -1,0 +1,18 @@
+server:
+  port: 80
+spring:
+  cache:
+    type: redis
+  redis:
+    host: ${DB_REDIS_HOSTNAME:localhost}
+  data:
+    mongodb:
+      database: app
+      port: 27017
+      host: ${DB_MONGO_HOSTNAME:localhost}
+  rabbitmq:
+    host: ${RABBIT_HOSTNAME:localhost}
+    username: guest
+    password: guest
+logging:
+  config: classpath:logback.xml

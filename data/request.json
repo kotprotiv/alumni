@@ -1,0 +1,38 @@
+[
+  {
+    "name": "bongiorno",
+    "addresses": [
+      {
+        "street": "viale viale",
+        "number": "11",
+        "country": "italia"
+      }
+    ],
+    "education": {
+      "bachelor": {
+        "university": "PolitecnicoMilano",
+        "year": 2017
+      },
+      "master": {
+        "university": "PolitecnicoMilano",
+        "year": 2019
+      }
+    }
+  },
+  {
+    "name": "buonasera",
+    "addresses": [
+      {
+        "street": "via via",
+        "number": "33",
+        "country": "italia"
+      }
+    ],
+    "education": {
+      "bachelor": {
+        "university": "UMC",
+        "year": 2000
+      }
+    }
+  }
+]
