@@ -19,7 +19,7 @@ jobs:
         run: sh release.sh
       - name: Get version
         id: version
-        run: echo "::set-output name=version::$(get-version.sh)"
+        run: echo "::set-output name=version::$(git describe --tags --abbrev=0)"
       - name: Upload app to release
         uses: svenstaro/upload-release-action@v2
         with:
