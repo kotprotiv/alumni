@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.kirill</groupId>
     <artifactId>alumni</artifactId>
-    <version>1.2.0</version>
-    <name>AlumniApp</name>
-    <description>Alumni application</description>
+    <packaging>pom</packaging>
+    <version>1.2.1-SNAPSHOT</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.0</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <modules>
@@ -25,5 +23,34 @@
         <java.version>11</java.version>
         <jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
     </properties>
+
+    <scm>
+        <url>https://github.com/kotprotiv/alumni.git</url> <!-- URL HTTP de clone do projeto -->
+        <connection>scm:git:https://github.com/kotprotiv/alumni.git</connection> <!-- URL HTTP de clone do projeto -->
+        <developerConnection>scm:git:https://github.com/kotprotiv/alumni.git
+        </developerConnection> <!-- URL HTTP de clone do projeto -->
+        <tag>1.2.1-SNAPSHOT</tag>
+    </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <checkModificationExcludes>
+                        <checkModificationExclude>pom.xml</checkModificationExclude>
+                    </checkModificationExcludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
