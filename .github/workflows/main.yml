@@ -1,7 +1,7 @@
 name: CI/CD
 on:
   push:
-    branches: [ release ]
+    branches: [ hotfix/pom-failed ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -11,23 +11,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Bump Version
-        id: bump
-        uses: nnichols/maven-version-bump-action@v3
-        with:
-          github-token: ${{ secrets.github_token }}
       - name: Build
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: mvn install
-      - name: Upload binaries to release
+          TOKEN: ${{ secrets.github_token }}
+        run: sh release.sh
+      - name: Get version
+        id: version
+        run: echo "::set-output name=version::$(get-version.sh)"
+      - name: Upload app to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/alumni-${{steps.bump.outputs.version}}.jar
-          asset_name: alumni-${{steps.bump.outputs.version}}.jar
-          tag: ${{steps.bump.outputs.version}}
+          file: alumni-app/target/alumni-app-${{steps.version.outputs.version}}.jar
+          asset_name: alumni-app-${{steps.version.outputs.version}}.jar
+          tag: ${{steps.version.outputs.version}}
+      - name: Upload file adapter to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: alumni-file-adapter/target/alumni-file-adapter-${{steps.version.outputs.version}}.jar
+          asset_name: alumni-file-adapter-${{steps.version.outputs.version}}.jar
+          tag: ${{steps.version.outputs.version}}
   deploy:
     needs: build
     runs-on: ubuntu-latest
