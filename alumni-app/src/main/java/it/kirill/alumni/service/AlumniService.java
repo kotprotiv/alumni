@@ -13,4 +13,6 @@ public interface AlumniService {
     void saveAll(List<AlumniDto> alumniDtos);
 
     Map<String, Object> find(String name, String educationLevel, PageRequest pageRequest);
+
+    Map<String, Object> find(String name, String educationLevel);
 }

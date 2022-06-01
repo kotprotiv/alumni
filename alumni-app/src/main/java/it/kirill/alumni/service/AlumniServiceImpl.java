@@ -46,16 +46,29 @@ public class AlumniServiceImpl implements AlumniService {
     }
 
     @Override
-    @Cacheable(value = "alumniCache")
+    @Cacheable(value = "alumniCachePaged")
     public Map<String, Object> find(String name, String educationLevel, PageRequest pageRequest) {
-        log.debug("Finding {}", name);
-        List<AlumniDto> alumniDtos = alumniRepository.findAllByName(name, pageRequest).stream()
+        log.debug("Finding {} with {} and {}", name, educationLevel, pageRequest);
+        List<Alumni> alumni = alumniRepository.findAllByName(name, pageRequest);
+        return getAlumniDtoMap(educationLevel, alumni);
+    }
+
+    @Override
+    @Cacheable(value = "alumniCache")
+    public Map<String, Object> find(String name, String educationLevel) {
+        log.debug("Finding {} with {}", name, educationLevel);
+        List<Alumni> alumni = alumniRepository.findAllByName(name);
+        return getAlumniDtoMap(educationLevel, alumni);
+    }
+
+    private Map<String, Object> getAlumniDtoMap(String educationLevel, List<Alumni> alumni) {
+        List<AlumniDto> alumniDtos = alumni.stream()
                 .map(alumniDtoHelper::toDto)
                 .filter(d -> d.getEducation().containsKey(educationLevel))
                 .collect(Collectors.toList());
 
         if (alumniDtos.isEmpty()) {
-            throw new NoDataFoundException(String.format("No alumni found by name %s", name));
+            throw new NoDataFoundException("No alumni found");
         }
 
         Map<String, Object> result = new HashMap<>();
