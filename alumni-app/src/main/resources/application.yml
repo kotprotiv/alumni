@@ -4,14 +4,14 @@ spring:
   cache:
     type: redis
   redis:
-    host: ${DB_REDIS_HOSTNAME:localhost}
+    host: ${DB_REDIS_HOSTNAME:redis}
   data:
     mongodb:
       database: app
       port: 27017
-      host: ${DB_MONGO_HOSTNAME:localhost}
+      host: ${DB_MONGO_HOSTNAME:mongo}
   rabbitmq:
-    host: ${RABBIT_HOSTNAME:localhost}
+    host: ${RABBIT_HOSTNAME:rabbit}
     username: guest
     password: guest
 logging:

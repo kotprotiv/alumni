@@ -4,6 +4,6 @@ logging:
   config: classpath:logback.xml
 spring:
   rabbitmq:
-    host: ${RABBIT_HOSTNAME:localhost}
+    host: ${RABBIT_HOSTNAME:rabbit}
     username: guest
     password: guest
