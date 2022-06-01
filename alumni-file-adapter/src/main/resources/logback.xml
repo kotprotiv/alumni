@@ -14,7 +14,7 @@
     </appender>
 
     <appender name="File" class="ch.qos.logback.core.FileAppender">
-        <file>${LOGS}/log-${dateFormat}.log</file>
+        <file>${LOGS}/log-file-adapter-${dateFormat}.log</file>
         <encoder>
             <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
         </encoder>
