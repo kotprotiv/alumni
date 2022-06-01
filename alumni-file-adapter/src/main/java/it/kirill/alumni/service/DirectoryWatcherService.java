@@ -26,7 +26,7 @@ public class DirectoryWatcherService {
                 .listener(event -> {
                     if (event.eventType() == DirectoryChangeEvent.EventType.CREATE) {
                         Path pathToFile = event.path();
-                        if (pathToFile.endsWith(".json")) {
+                        if (pathToFile.toString().matches("^.*\\.json$")) {
                             log.info("Got file: {}", pathToFile);
 
                             File file = new File(pathToFile.toUri());
