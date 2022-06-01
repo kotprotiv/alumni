@@ -22,14 +22,14 @@
     <properties>
         <java.version>11</java.version>
         <jib-maven-plugin.version>3.2.1</jib-maven-plugin.version>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
     </properties>
 
     <scm>
-        <url>https://github.com/kotprotiv/alumni.git</url> <!-- URL HTTP de clone do projeto -->
-        <connection>scm:git:https://github.com/kotprotiv/alumni.git</connection> <!-- URL HTTP de clone do projeto -->
-        <developerConnection>scm:git:https://github.com/kotprotiv/alumni.git
-        </developerConnection> <!-- URL HTTP de clone do projeto -->
-        <tag>1.2.1-SNAPSHOT</tag>
+        <url>https://github.com/kotprotiv/alumni.git</url>
+        <connection>scm:git:https://github.com/kotprotiv/alumni.git</connection>
+        <developerConnection>scm:git:https://github.com/kotprotiv/alumni.git</developerConnection>
     </scm>
 
     <build>
@@ -37,12 +37,12 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${build-helper-maven-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>${maven-release-plugin.version}</version>
                 <configuration>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <checkModificationExcludes>
