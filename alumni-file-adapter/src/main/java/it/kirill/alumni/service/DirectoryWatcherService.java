@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
@@ -24,19 +25,29 @@ public class DirectoryWatcherService {
                 .path(directoryToWatch)
                 .listener(event -> {
                     if (event.eventType() == DirectoryChangeEvent.EventType.CREATE) {
-                        log.info("got file {}", event.path().toString());
-                        String alumniDtos = Files.readString(event.path());
-                        requestProducer.send(alumniDtos);
-                        new File(event.path().toUri()).delete(); //todo check result
+                        Path pathToFile = event.path();
+                        if (pathToFile.endsWith(".json")) {
+                            log.info("Got file: {}", pathToFile);
+
+                            File file = new File(pathToFile.toUri());
+                            String alumniDtos = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+
+                            requestProducer.send(alumniDtos);
+
+                            file.renameTo(new File(file.toPath() + ".done"));
+                        } else {
+                            log.error("Got incorrect file in import directory: {}", pathToFile);
+                        }
                     }
                 })
                 .build();
     }
 
-    private void checkIfAbsent(Path directoryToWatch) {
+
+    private void checkIfAbsent(Path directoryToWatch) throws IOException {
         File directory = new File(directoryToWatch.toUri());
         if (!directory.exists()) {
-            directory.mkdir();
+            Files.createDirectory(directoryToWatch);
         }
     }
 
