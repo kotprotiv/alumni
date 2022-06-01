@@ -5,7 +5,7 @@
     <groupId>it.kirill</groupId>
     <artifactId>alumni</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.0</version>
+    <version>2.1.1-SNAPSHOT</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -30,7 +30,7 @@
         <url>https://github.com/kotprotiv/alumni.git</url>
         <connection>scm:git:https://github.com/kotprotiv/alumni.git</connection>
         <developerConnection>scm:git:https://github.com/kotprotiv/alumni.git</developerConnection>
-      <tag>2.1.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <build>
