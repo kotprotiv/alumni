@@ -23,8 +23,8 @@ services:
       - "6379:6379"
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    volumes:
-      - ./data/redis:/bitnami/redis/data
+  #    volumes:
+  #      - ./data/redis:/bitnami/redis/data
   mongo:
     container_name: mongo
     hostname: mongo
@@ -45,9 +45,11 @@ services:
       - gateway
     ports:
       - "80:80"
+      - "5004:5004"
     volumes:
       - ./logs:/logs
     environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5004
       - DB_MONGO_HOSTNAME=mongo
       - DB_REDIS_HOSTNAME=redis
       - RABBIT_HOSTNAME=rabbit
@@ -64,10 +66,12 @@ services:
       - gateway
     ports:
       - "81:81"
+      - "5005:5005"
     volumes:
       - ./logs:/logs
       - ./in:/in
     environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       - RABBIT_HOSTNAME=rabbit
     depends_on:
       - rabbit

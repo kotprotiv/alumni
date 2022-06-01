@@ -27,10 +27,14 @@ public class AlumniController {
     @GetMapping(value = "alumni", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> get(@RequestParam("name") String name,
                                    @RequestParam("educationLevel") String educationLevel,
-                                   @RequestParam("page") int page,
-                                   @RequestParam("size") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        return alumniService.find(name, educationLevel, pageRequest);
+                                   @RequestParam(value = "page", required = false) Integer page,
+                                   @RequestParam(value = "size", required = false) Integer size) {
+        if (page == null && size == null) {
+            return alumniService.find(name, educationLevel);
+        } else {
+            PageRequest pageRequest = PageRequest.of(page, size);
+            return alumniService.find(name, educationLevel, pageRequest);
+        }
     }
 
     @ExceptionHandler(NoDataFoundException.class)
