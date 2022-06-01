@@ -7,3 +7,5 @@ spring:
     host: ${RABBIT_HOSTNAME:localhost}
     username: guest
     password: guest
+incoming:
+  address: ${INCOMING_ADDRESS:./in}

@@ -1,8 +1,8 @@
 package it.kirill.alumni.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCacheManager;
 
@@ -17,8 +17,9 @@ public class CacheInvalidationAspect {
     }
 
 
-    @Before("execution(* it.kirill.alumni.service.AlumniServiceImpl.save(..))")
-    public void logBeforeMethodCall() {
+    @After("execution(* it.kirill.alumni.service.AlumniServiceImpl.save(..)) ||" +
+            "execution(* it.kirill.alumni.service.AlumniServiceImpl.saveAll(..))")
+    public void invalidate() {
         log.debug("Invalidating cache");
         Cache alumniCache = cacheManager.getCache("alumniCache");
         if (alumniCache != null) {
